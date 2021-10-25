@@ -6,6 +6,7 @@ from pathlib import Path
 from icecream import ic
 
 base_dir = Path(__file__).resolve().parent
+media_path = Path(__file__).resolve().parent.parent.joinpath('media')
 config = configparser.ConfigParser()
 print(base_dir)
 config.read(os.path.join(base_dir, "config.ini"))
@@ -35,21 +36,14 @@ BOT_TOKEN = os.environ.get('bot_token') or config['Bot']['bot_token']
 PORT = os.environ.get('port') or config['Server']['port']
 ALCHEMY_DB_PATH = database_link()
 ic(ALCHEMY_DB_PATH)
-MEDIA_GROUP_ID = os.environ.get('media_group_id') or config['GroupChat']['media']
 CLIENT_BOT_LINK = os.environ.get('client_bot_link') or config['Bot']['client_bot_link']
 CLIENT_BOT_TOKEN = os.environ.get('client_bot_token') or config['Bot']['client_bot_token']
 # region commands
-START = '/start'
-MAIN_MENU = 'Главное меню'
-CATALOG = 'Каталог'
-ADD_EVENT = 'Добавить событие'
-SKIP = 'Оставить поле пустым'
 EXIT_FROM_CHAT = 'Выйти из чата'
 SHOW_EVENT_IN_CHAT = 'Посмотреть событие'
+EVENT_ANSWER = 'Ответить'
 
 # Sure check
-YES = 'да'
-NO = 'нет'
 
 # endregion
 # validations
@@ -61,5 +55,4 @@ ADD_EVENTS_PAGINATOR = 'add'
 DELETE_EVENT = 'delete'
 CONNECT_TO_CHAT = 'connect'
 
-ANSWER = 'answer'
-SHOW_EVENT = 'show_event'
+SHOW_EVENT_MARKER = 'show_event'

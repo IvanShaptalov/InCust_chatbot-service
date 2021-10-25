@@ -1,21 +1,77 @@
+# region data sending
 from aiogram import types
-from utils import useful_methods
+from aiogram.dispatcher import FSMContext
+
+from utils import messenger
 
 
-async def send_text_message(message: types.Message):
-    await message.reply('.')
+async def send_text_message(message: types.Message, state: FSMContext):  # create class to send all type of data
+    async with state.proxy() as data:
+        event_id = int(data['event_id'])
+        chat_id = data['sender_chat_id']
+        sender = messenger.TextSender(event_id=event_id,
+                                      sender_id=chat_id)
+        await sender.forward_data(message)
 
 
-async def connect_to_chat(callback: types.CallbackQuery):
-    print(callback.data)
-    event = useful_methods.get_event(callback)
-    # with client_bot.with_token(config.BOT_TOKEN) as bot:
-    #     await bot.send_photo(chat_id=callback.message.chat.id,
-    #                          photo=event.get_media(),
-    #                          caption=f'{event.stringify()}')
+async def send_location(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        event_id = int(data['event_id'])
+        chat_id = data['sender_chat_id']
+        sender = messenger.LocationSender(event_id=event_id,
+                                          sender_id=chat_id)
+        await sender.forward_data(message)
 
 
-async def show_event(callback: types.CallbackQuery):
-    print(callback.data)
-    event = useful_methods.get_event(callback)
-    # todonow send deep link
+async def send_sticker(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        event_id = int(data['event_id'])
+        chat_id = data['sender_chat_id']
+        sender = messenger.StickerSender(event_id=event_id,
+                                         sender_id=chat_id)
+        await sender.forward_data(message)
+
+
+async def send_photo(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        event_id = int(data['event_id'])
+        chat_id = data['sender_chat_id']
+        sender = messenger.PhotoSender(event_id=event_id,
+                                       sender_id=chat_id)
+        await sender.forward_data(message)
+
+
+async def send_animation(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        event_id = int(data['event_id'])
+        chat_id = data['sender_chat_id']
+        sender = messenger.AnimationSender(event_id=event_id,
+                                           sender_id=chat_id)
+        await sender.forward_data(message)
+
+
+async def send_video(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        event_id = int(data['event_id'])
+        chat_id = data['sender_chat_id']
+        sender = messenger.VideoSender(event_id=event_id,
+                                       sender_id=chat_id)
+        await sender.forward_data(message)
+
+
+async def send_audio(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        event_id = int(data['event_id'])
+        chat_id = data['sender_chat_id']
+        sender = messenger.AudioSender(event_id=event_id,
+                                       sender_id=chat_id)
+        await sender.forward_data(message)
+
+
+async def send_voice(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        event_id = int(data['event_id'])
+        chat_id = data['sender_chat_id']
+        sender = messenger.VoiceSender(event_id=event_id,
+                                       sender_id=chat_id)
+        await sender.forward_data(message)
