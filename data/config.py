@@ -21,13 +21,13 @@ def database_link():
     while '' in arr:
         arr.remove('')
 
-    name = arr[4]
+    name = arr[5]
     print(name)
     print('info from arr ', len(arr))
-    user = arr[0]
-    password = arr[1]
-    host_db = arr[2]
-    port = arr[3]
+    user = arr[1]
+    password = arr[2]
+    host_db = arr[3]
+    port = arr[4]
     db_path = 'postgresql+psycopg2://{}:{}@{}/{}'.format(user, password, host_db, name)
     return db_path
 

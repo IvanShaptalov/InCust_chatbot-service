@@ -37,7 +37,7 @@ async def connect_to_chat(callback: types.CallbackQuery, state: FSMContext):
 
 async def leave_chat(message: types.Message, state: FSMContext):
     await state.finish()
-    db.User.set_in_chat(message.chat.id, False, 'client')
+    db.User.set_in_chat(message.chat.id, False, 'service')
     logging.info('leave chat, chat state finish')
     await service_bot.send_message(message.chat.id,
                                    text_util.LEFT_CHAT,
