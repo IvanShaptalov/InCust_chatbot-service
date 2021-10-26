@@ -48,7 +48,7 @@ class BaseSender:
         return sender
 
     def prepare_to_send(self):
-        text = text_util.NOTIFICATION.format(self.event.title, self.sender.user_fullname)
+        text = text_util.NOTIFICATION.format(self.event.title, self.get_owner().user_fullname)
         return text
 
     @abstractmethod
