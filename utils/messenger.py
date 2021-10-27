@@ -22,9 +22,7 @@ class BaseSender:
     def get_answer_markup(self):
         return keyboards.i_snippets.in_chat_inline_keyboard(event_id=self.event_id,
                                                             receiver_chat_id=self.sender_id,
-                                                            # receiver sender
                                                             sender_chat_id=self.get_owner().chat_id,
-                                                            # sender owner in this case
                                                             current_event_id=self.event_id)
 
     def check_that_event_exists(self):

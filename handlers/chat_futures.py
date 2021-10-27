@@ -16,18 +16,20 @@ async def connect_to_chat(callback: types.CallbackQuery, state: FSMContext):
 
     event = useful_methods.get_event(callback)
     user_chat_id = useful_methods.get_id_from_data(callback.data, 2)
-    user = db.get_from_db_multiple_filter(db.User, [db.User.chat_id == user_chat_id])
+    user = db.get_from_db_multiple_filter(table_class=db.User,
+                                          identifier_to_value=[db.User.chat_id == user_chat_id])
     if isinstance(event, db.Event) and isinstance(user, db.User):
         print(callback.data)
         await state.update_data(sender_chat_id=user_chat_id)
         await state.update_data(event_id=event.id)
         await StatesGroup.in_chat.set()
         logging.info(f'enter in chat , state - {await state.get_state()}')
+        chat_hash = useful_methods.format_hast(first_chat_id=user_chat_id,
+                                               second_chat_id=event.event_owner_id,
+                                               event_id=event.id)
 
         db.User.set_in_chat(chat_id=callback.message.chat.id,
-                            in_chat=True,
-                            service_or_client='service',
-                            chat_event_id=event.id)
+                            chat_hash=chat_hash)
         await callback.message.reply(
             text_util.ENTER_IN_CHAT.format(event.title,
                                            user.user_fullname),
@@ -41,9 +43,7 @@ async def connect_to_chat(callback: types.CallbackQuery, state: FSMContext):
 async def leave_chat(message: types.Message, state: FSMContext):
     await state.finish()
     db.User.set_in_chat(chat_id=message.chat.id,
-                        in_chat=False,
-                        service_or_client='service',
-                        chat_event_id=None)
+                        chat_hash=None)
     logging.info('leave chat, chat state finish')
     await service_bot.send_message(message.chat.id,
                                    text_util.LEFT_CHAT,

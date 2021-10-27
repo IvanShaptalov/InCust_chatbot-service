@@ -1,9 +1,5 @@
 import pytest
 
-from models import db
-from tests.test_messenger import test_instance_creating
-from utils import messenger
-
 
 @pytest.fixture
 def chat_id():
